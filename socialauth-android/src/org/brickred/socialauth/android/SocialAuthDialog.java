@@ -188,11 +188,18 @@ public class SocialAuthDialog extends Dialog {
 
         requestWindowFeature( Window.FEATURE_NO_TITLE );
         mTitle = new TextView( getContext() );
-        int res = getContext().getResources().getIdentifier( mProviderName.toString(), "drawable", getContext().getPackageName() );
+        
+        String providerName = mProviderName.toString();
+        if ( providerName.equalsIgnoreCase( "linkedin2" ) ) {
+         
+            providerName = "linkedin"
+        }
+        
+        int res = getContext().getResources().getIdentifier( providerName, "drawable", getContext().getPackageName() );
         icon = getContext().getResources().getDrawable( res );
         StringBuilder sb = new StringBuilder();
-        sb.append( mProviderName.toString().substring( 0, 1 ).toUpperCase() );
-        sb.append( mProviderName.toString().substring( 1, mProviderName.toString().length() ) );
+        sb.append( providerName.substring( 0, 1 ).toUpperCase() );
+        sb.append( providerName.substring( 1, providerName.length() ) );
         mTitle.setText( sb.toString() );
         mTitle.setGravity( Gravity.CENTER_VERTICAL );
         mTitle.setTextColor( Color.WHITE );
