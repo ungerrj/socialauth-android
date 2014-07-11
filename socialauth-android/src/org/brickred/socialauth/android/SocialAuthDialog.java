@@ -192,7 +192,7 @@ public class SocialAuthDialog extends Dialog {
         String providerName = mProviderName.toString();
         if ( providerName.equalsIgnoreCase( "linkedin2" ) ) {
          
-            providerName = "linkedin"
+            providerName = "linkedin";
         }
         
         int res = getContext().getResources().getIdentifier( providerName, "drawable", getContext().getPackageName() );
