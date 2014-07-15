@@ -794,8 +794,28 @@ public class SocialAuthAdapter {
 
 		if (providerName != null) {
 
-			if (socialAuthManager.getConnectedProvidersIds().contains(providerName))
-				socialAuthManager.disconnectProvider(providerName);
+			// Initialize socialauth manager if not already done
+			if (socialAuthManager != null) {
+				// If SocialAuthManager is not null and contains Provider Id,
+				// disconnect the provider
+				if (socialAuthManager.getConnectedProvidersIds().contains(currentProvider.toString())) {
+
+					socialAuthManager.disconnectProvider(providerName);
+				}
+			}
+			// If SocialAuthManager is null, create new socialauthmanager , load
+			// configuration and connect provider
+			else {
+				Log.d("SocialAuthAdapter", "Loading keys and secrets from configuration");
+
+				socialAuthManager = new SocialAuthManager();
+				try {
+					loadConfig(ctx);
+
+				} catch (Exception e) {
+					Log.d("SocialAuthAdapter", "Could not load configuration");
+				}
+			}
 
 			Editor edit = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
 			edit.remove(providerName + " key");
