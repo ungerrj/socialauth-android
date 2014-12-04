@@ -59,6 +59,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.WindowManager;
 
 /**
  * Dialog that wraps a Web view for authenticating with the given social
@@ -150,7 +151,7 @@ public class SocialAuthDialog extends Dialog {
         int orientation = getContext().getResources().getConfiguration().orientation;
         float[] dimensions = ( orientation == Configuration.ORIENTATION_LANDSCAPE ) ? DIMENSIONS_DIFF_LANDSCAPE : DIMENSIONS_DIFF_PORTRAIT;
 
-        addContentView( mContent, new LinearLayout.LayoutParams( display.getWidth() - ( (int) ( dimensions[0] * scale + 0.5f ) ), display.getHeight() - ( (int) ( dimensions[1] * scale + 0.5f ) ) ) );
+        addContentView( mContent, WRAP );
 
         mSpinner.setOnCancelListener( new OnCancelListener() {
 
@@ -177,6 +178,8 @@ public class SocialAuthDialog extends Dialog {
                 return false;
             }
         } );
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     /**
@@ -224,8 +227,15 @@ public class SocialAuthDialog extends Dialog {
         mWebView.setHorizontalScrollBarEnabled( false );
         mWebView.setWebViewClient( new SocialAuthDialog.SocialAuthWebViewClient() );
         mWebView.getSettings().setJavaScriptEnabled( true );
+        mWebView.getSettings().setUseWideViewPort(true);
         mWebView.loadUrl( mUrl );
-        mWebView.setLayoutParams( FILL );
+
+        Display display = getWindow().getWindowManager().getDefaultDisplay();
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        int orientation =getContext().getResources().getConfiguration().orientation;
+        float[] dimensions = (orientation == Configuration.ORIENTATION_LANDSCAPE) ? DIMENSIONS_DIFF_LANDSCAPE : DIMENSIONS_DIFF_PORTRAIT;
+
+        mWebView.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth() - ((int) (dimensions[0] * scale + 0.5f)), display.getHeight() - ((int) (dimensions[1] * scale + 0.5f))));
         mContent.addView( mWebView );
     }
 
@@ -489,6 +499,10 @@ public class SocialAuthDialog extends Dialog {
             }
 
             mSpinner.dismiss();
+
+            ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            mWebView.setLayoutParams(lp);
         }
     }
 
