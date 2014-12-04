@@ -220,7 +220,7 @@ public class SocialAuthDialog extends Dialog {
     private void setUpWebView() {
 
         mWebView = new CustomWebView( getContext() );
-        mWebView.setVerticalScrollBarEnabled( false );
+        mWebView.setVerticalScrollBarEnabled( true );
         mWebView.setHorizontalScrollBarEnabled( false );
         mWebView.setWebViewClient( new SocialAuthDialog.SocialAuthWebViewClient() );
         mWebView.getSettings().setJavaScriptEnabled( true );
