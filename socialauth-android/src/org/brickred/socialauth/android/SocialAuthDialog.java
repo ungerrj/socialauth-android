@@ -498,7 +498,10 @@ public class SocialAuthDialog extends Dialog {
                 mTitle.setText( title );
             }
 
-            mSpinner.dismiss();
+            if ((mSpinner != null) && mSpinner.isShowing()) { 
+                
+                mSpinner.dismiss();
+            }
 
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
             lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
