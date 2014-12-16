@@ -646,7 +646,13 @@ public class SocialAuthAdapter {
 							String callbackUri = provider.getCallBackUri();
 							Log.d("SocialAuthAdapter", "Callback URI : " + callbackUri);
 							// start webview dialog
-							new SocialAuthDialog(context, url, provider, dialogListener, socialAuthManager).show();
+							try {
+
+								new SocialAuthDialog(context, url, provider, dialogListener, socialAuthManager).show();
+							} catch (Exception e) {
+
+								//do nothing
+							}
 						}
 					});
 				} catch (Exception e) {
